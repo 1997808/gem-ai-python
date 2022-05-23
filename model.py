@@ -2,11 +2,14 @@
 import pandas as pd
 import numpy as np
 import sklearn.externals as extjoblib
+from sklearn import preprocessing
+from sklearn import utils
 import joblib
 
 # Load the dataset in a dataframe object and include only four features as mentioned
 url = "http://localhost:5000/api/train-data"
 df = pd.read_csv(url)
+columnNames = df.columns.tolist()
 # include = ['Age', 'Sex', 'Embarked', 'Survived'] # Only four features
 include = [
    'bot_0_playerId',
@@ -459,7 +462,7 @@ include = [
    'label',
 ]
 
-df_ = df[include]
+df_ = df[columnNames]
 
 # Data Preprocessing
 categoricals = []
@@ -468,16 +471,17 @@ for col, col_type in df_.dtypes.iteritems():
           categoricals.append(col)
      else:
           df_[col].fillna(0, inplace=True)
-
 df_ohe = pd.get_dummies(df_, columns=categoricals, dummy_na=True)
 
 # Logistic Regression classifier
 from sklearn.linear_model import LogisticRegression
-dependent_variable = 'Survived'
+dependent_variable = 'label'
 x = df_ohe[df_ohe.columns.difference([dependent_variable])]
 y = df_ohe[dependent_variable]
+lab = preprocessing.LabelEncoder()
+y_transformed = lab.fit_transform(y)
 lr = LogisticRegression()
-lr.fit(x, y)
+lr.fit(x, y_transformed)
 
 # Save your model
 joblib.dump(lr, 'model.pkl')
