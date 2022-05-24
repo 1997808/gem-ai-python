@@ -14,11 +14,12 @@ def predict():
     if lr:
         try:
             json_ = request.json
-            print(json_)
+            # print(json_)
             query = pd.get_dummies(pd.DataFrame(json_))
             query = query.reindex(columns=model_columns, fill_value=0)
 
             prediction = list(lr.predict(query))
+            print(prediction)
 
             return jsonify({'prediction': str(prediction)})
 
