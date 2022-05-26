@@ -8,7 +8,9 @@ import joblib
 
 # Load the dataset in a dataframe object and include only four features as mentioned
 url = "http://localhost:5000/api/train-data"
-df = pd.read_csv(url)
+file = '1653549851017.csv'
+df = pd.read_csv(file, low_memory=False)
+# df = pd.read_csv(url)
 columnNames = df.columns.tolist()
 # include = ['Age', 'Sex', 'Embarked', 'Survived'] # Only four features
 include = [
@@ -485,15 +487,16 @@ lr = LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True
           penalty='l2', random_state=None, solver='liblinear', tol=0.0001,
           verbose=0, warm_start=False)
 lr.fit(x, y_transformed)
+print(lr.score(x, y_transformed))
 
 # Save your model
-joblib.dump(lr, 'model.pkl')
-print("Model dumped!")
+# joblib.dump(lr, 'model.pkl')
+# print("Model dumped!")
 
 # Load the model that you just saved
-lr = joblib.load('model.pkl')
+# lr = joblib.load('model.pkl')
 
 # Saving the data columns from training
-model_columns = list(x.columns)
-joblib.dump(model_columns, 'model_columns.pkl')
-print("Models columns dumped!")
+# model_columns = list(x.columns)
+# joblib.dump(model_columns, 'model_columns.pkl')
+# print("Models columns dumped!")
