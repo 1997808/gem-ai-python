@@ -480,7 +480,6 @@ x = df_ohe[df_ohe.columns.difference([dependent_variable])]
 y = df_ohe[dependent_variable]
 lab = preprocessing.LabelEncoder()
 y_transformed = lab.fit_transform(y)
-print(y_transformed)
 lr = LogisticRegression(C=1.0, class_weight=None, dual=False, fit_intercept=True,
           intercept_scaling=1, max_iter=1000, multi_class='ovr', n_jobs=1,
           penalty='l2', random_state=None, solver='liblinear', tol=0.0001,

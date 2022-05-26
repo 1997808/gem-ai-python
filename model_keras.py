@@ -11,6 +11,7 @@ import joblib
 from numpy import loadtxt
 from keras.models import Sequential
 from keras.layers import Dense
+from keras.optimizers import Adam
 
 # Load the dataset in a dataframe object and include only four features as mentioned
 url = "http://localhost:5000/api/train-data"
@@ -29,12 +30,13 @@ print(y)
 model = Sequential()
 model.add(Dense(cols, input_shape=(cols,), activation='relu'))
 model.add(Dense(64, activation='relu'))
-model.add(Dense(16, activation='relu'))
-model.add(Dense(1, activation='relu'))
+model.add(Dense(1, activation='linear'))
+opt = Adam(learning_rate=0.01)
 # compile the keras model
-model.compile(loss='binary_crossentropy', optimizer='adam', metrics=['accuracy'])
+model.compile(loss='binary_crossentropy', optimizer=opt, metrics=['accuracy'])
+model.summary()
 # fit the keras model on the dataset
-model.fit(X, y, epochs=30, batch_size=10, validation_split=0.1)
+model.fit(X, y, epochs=10, batch_size=10, validation_split=0.1)
 # evaluate the keras model
 _, accuracy = model.evaluate(X, y)
 print('Accuracy: %.2f' % (accuracy*100))
