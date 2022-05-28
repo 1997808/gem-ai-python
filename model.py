@@ -8,7 +8,7 @@ import joblib
 
 # Load the dataset in a dataframe object and include only four features as mentioned
 url = "http://localhost:5000/api/train-data"
-file = '13000.csv'
+file = '23000.csv'
 df = pd.read_csv(file)
 columnNames = df.columns.tolist()
 # include = ['Age', 'Sex', 'Embarked', 'Survived'] # Only four features
